@@ -1,0 +1,18 @@
+{% block title %}Log In{% endblock %}
+{% block content %}
+
+<form method="post" action=".">
+{% csrf_token %}
+<table>
+  {{ form.as_table }}
+</table>
+
+<input type="submit" value="login" />
+</form>
+
+{% endblock %}
+
+<p></p>
+<a href={% url 'main:register' %}>New member click here to register </a>
+<p></p>
+<a href={% url 'main:index' %}>Main Page</a>

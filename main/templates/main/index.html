@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'main/style.css' %}" />
+{% endblock style %}
+
+{% block content %}
+    <p></p>
+    <p></p>
+    <h1>Home page</h1>
+    <img id="moi" src="{% static "main/images/moi.JPG" %}" size=40%/>
+    <p></p>
+    <p></p>
+
+    <p class="paragraph">
+        This website is like a portfolio to present some projects that I have done.
+        So it is mostly direct toward employers.
+        <br>
+        All the source code for this website and other achivements 
+        are available on my github accout at this link: 
+        <a href="https://github.com/flacout" target="_blank">https://github.com/flacout</a>
+        <br>
+        A version of my resume is available on the following link:
+    </p>
+    <div>
+        <a id="resume" href="{{ MEDIA_URL }}cv.pdf" target="_blank">Resume</a>
+    </div>
+
+    <div>
+        <br>
+        <p class="paragraph">
+            There is two applets in this site, for each of them a user can  create an account 
+            to saved some content and access or download it later.
+            <br>
+            <ul class="content"><b>The two apllets are:</b><br><br>
+                <li class="applet"> 
+                    <b>DNA and Protein Sequence alignment</b><br>
+                    This application find similarities and gaps between to sequences of character. It is used usually in Bioinformatics to compare DNA or protein sequences. I design the algorithm myself and wrote it in python. It is based on publications about local and global alignment.<br>
+                    The alignment accept sequences less than 600pb.<br>
+                </li>
+                <li class="applet"> <b>Photo editor and manager</b><br>
+                    This application is a web adaptation of a project that I realized during one of my classes. It is written in Javascript and use a library from Duke university for images management.<br>
+                </li>
+            </ul>
+        </p>
+    </div>
+
+{% endblock content %}

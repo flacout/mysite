@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'main/base_style.css' %}" />
+    {% block style %}
+    {% endblock style %}
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+</head>
+
+
+<body>
+    <ul class="menubar">
+
+        <li style="float:left"> <a href={% url 'main:index' %}>Home</a></li>
+
+        <li style="float:left" class="dropdown"> 
+            <a href={% url 'align:index' %} class="dropbtn">Alignment</a>
+            <div class="dropdown-content">
+                <a href={% url 'align:allresults' %}>Result Align</a>
+            </div>
+        </li>
+
+        <li style="float:left"> <a href={% url 'main:login' %}>login</a> </li>
+
+        <li style="float:left"> <a href={% url 'main:logout' %}>logout</a> </li>
+
+        {% if username %}
+        <li style="float:right"><span class="active">Hi {{username}} !</span></li>
+        {% endif %}
+        {% if switch %}
+        <li style="float:right"><span class="active">You are logged out</span></li>
+        {% endif %}   
+    </ul>
+
+    {% block content %}
+    {% endblock content %}
+
+    <footer>
+        <img src="{% static "main/images/python-logo.png" %}" style="float:right;" width=80px />
+        <img src="{% static "main/images/django.png" %}" style="float:right" width=160px/>
+        Website design by Fabrice Lacout and powered by Python and Django<br>
+        Contact information:<br>
+        858-342-3109<br>
+        fabricelacout@gmail.com
+
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,26 @@
+#moi {
+    width:20%;
+}
+
+h1 {
+  font-family: arial;
+  color: dimgray;
+}
+
+#resume{
+    background-color: #1a53ff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 8px;
+    margin: 15px;
+    top: 50%;
+
+}
+
+.paragraph{
+    padding: 30px;
+    border-top: 5px;
+    border-top-style: solid;
+    border-color: #ff751a;
+}

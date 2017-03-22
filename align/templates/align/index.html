@@ -1,0 +1,43 @@
+<head>
+<style>
+
+textarea {
+    overflow: auto;
+    vertical-align: top;
+    resize: vertical;
+    width:90%;
+    height:150px;
+}
+</style>
+</head>
+{% extends "base.html" %}
+
+{% block content %}
+
+<body>
+    <h1>Sequence alignment page</h1>
+
+        <form enctype="multipart/form-data" action="{% url 'align:result' %}" method="post"> 
+        {% csrf_token %}
+            <diV>
+                <p> </p>
+                <h3>Sequence1</h3>
+                <textarea autocomplete='off' name="sequenceA" cols="1" row="1"></textarea>
+                <input name="fileA" type="file" autocomplete='off'>
+            </div>
+
+            <diV>      
+                <p> </p>
+                <h3>Sequence2</h3>
+                <textarea autocomplete='off' name="sequenceB" cols="1" row="1"></textarea>
+                <input autocomplete='off' name="fileB" type="file">
+                <p> </p>
+                <input type="submit" value="Submit" />
+            </div>
+        </form>
+    <br>
+    <br>
+    <br>
+</body>
+
+{% endblock content %}

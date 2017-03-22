@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <body>
+        <h1>Result of the Alignment</h1>
+        <form action="{% url 'align:allresults' %}" method="post"> 
+        {% csrf_token %}
+            <p>Name of the job: {{ name_alignment}}</p>
+            <pre  xml:space="preserve">{{ result_alignment }}</pre>
+            <textarea hidden autocomplete='off' name="name_align" cols="1" row="1">{{ name_alignment}}</textarea>
+            <textarea hidden autocomplete='off' name="result_align" cols="1" row="1">{{ result_alignment }}</textarea>
+            {% if user.is_authenticated %}
+            <input type="submit" value="Save" />
+            {% endif %}
+        </form>
+
+        <div>
+            <a download href="{{ MEDIA_URL }}result.txt" target="_blank">download result</a>
+        </div>
+        <br>
+
+    <body>
+
+
+    <script>
+        $("pre").each(function () {
+            $(this).html($(this).html().replace(/\*/g, '<span style="background-color: yellow;">*</span>'));
+        });
+    </script>
+
+{% endblock content %}
