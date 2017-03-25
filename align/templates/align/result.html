@@ -9,7 +9,7 @@
             <pre  xml:space="preserve">{{ result_alignment }}</pre>
             <textarea hidden autocomplete='off' name="name_align" cols="1" row="1">{{ name_alignment}}</textarea>
             <textarea hidden autocomplete='off' name="result_align" cols="1" row="1">{{ result_alignment }}</textarea>
-            {% if user.is_authenticated %}
+            {% if user.is_authenticated and name_alignment %}
             <input type="submit" value="Save" />
             {% endif %}
         </form>

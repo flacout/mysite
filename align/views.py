@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.urls import reverse
 
 
 from DNA_sequence import *
@@ -14,8 +15,6 @@ def index(request):
 
 
 def result(request):
-    global name_alignment
-    global result_alignment
     name_alignment=""
     result_alignment=""
     sequenceA=""
@@ -74,56 +73,49 @@ def result(request):
     you reach it from the navigation panel or after saving an alignment in 
     It contain a search button to search in the alignment_names.
 '''
-def allresults(request):
-    # Check if it comes from the align:result page
-    # If not name_alignment doesn't exist and it throw an exception
-    try: 
-        if request.method == 'POST' and request.POST['name_align']!="":
-            # check if the result already exist.
-            # If yes it display a text and don't save it.
-            exist=Alignment.objects.filter(alignment_name=request.POST['name_align'])
-            if len(exist)!=0:
-                name_exist="the name of this alignment result already exist, it cannot be saved"
-                alignments=Alignment.objects.filter(user_id=request.user.id).order_by('-id')
-                context={'alignments':alignments, 'username': request.user.username, 
-                        'name_exist':name_exist}
-                return render(request, 'align/allresults.html',context)
-
-            # Create a new entry in the alignments of the user
-            Alignment.objects.create(alignment_name=request.POST['name_align'],
-                                    alignment_result=request.POST['result_align'], user_id=request.user.id)
-            alignments=Alignment.objects.filter(user_id=request.user.id).order_by('-id')
-            context={'alignments':alignments}
-            return render(request, 'align/allresults.html',context)
-
-        else :
-            alignments=Alignment.objects.filter(user_id=request.user.id).order_by('-id')
-            context={'alignments':alignments, 'username': request.user.username}
-            return render(request, 'align/allresults.html',context)
+def allresults(request, page_nb=1):
     
-    except: pass 
+    name = request.POST.get('name_align', 0)
+    search= request.POST.get('search', 0)
+    page_nb=int(page_nb)
 
-    # Check if it comes from the search button
-    try:
-        if request.method == 'POST' and request.POST['search']!="":
-            alignments=Alignment.objects.filter(user_id=request.user.id).filter(
-                                alignment_name__contains=request.POST['search']).order_by('-id')
-
-            # Chek if the search as a match or not
-            if len(alignments)==0: 
-                context={'alignments':alignments, 'username': request.user.username
-                                            ,'no_match': "No match for your search"}
-            else : context={'alignments':alignments, 'username': request.user.username}
-            return render(request, 'align/allresults.html',context)
-            
-        else:
+    # Check if it comes from the align:result page
+    if name!=0:
+        # check if the result already exist.
+        # If yes it display a text and don't save it.
+        exist=Alignment.objects.filter(alignment_name=request.POST['name_align'])
+        if len(exist)!=0:
+            name_exist="the name of this alignment result already exist, it cannot be saved"
             alignments=Alignment.objects.filter(user_id=request.user.id).order_by('-id')
-            context={'alignments':alignments, 'username': request.user.username}
+            alignments=alignments[(5*page_nb-5):(5*page_nb)]
+            context={'alignments':alignments, 'username': request.user.username, 
+                    'name_exist':name_exist, 'page_nb':page_nb}
             return render(request, 'align/allresults.html',context)
 
-    # If it comes from the navigation menu
-    except:
+        # Create a new entry in the alignments of the user
+        Alignment.objects.create(alignment_name=request.POST['name_align'],
+                                alignment_result=request.POST['result_align'], user_id=request.user.id)
         alignments=Alignment.objects.filter(user_id=request.user.id).order_by('-id')
-        context={'alignments':alignments, 'username': request.user.username}
+        alignments=alignments[(5*page_nb-5):(5*page_nb)]
+        context={'alignments':alignments, 'username': request.user.username, 'page_nb':page_nb}
         return render(request, 'align/allresults.html',context)
 
+    # Check if it comes from the search button
+    if search!=0:
+        alignments=Alignment.objects.filter(user_id=request.user.id).filter(
+                            alignment_name__contains=request.POST['search']).order_by('-id')
+        alignments=alignments[(5*page_nb-5):(5*page_nb)]
+
+        # Chek if the search as a match or not
+        if len(alignments)==0: 
+            context={'alignments':alignments, 'username': request.user.username
+                    ,'no_match': "No match for your search", 'page_nb':page_nb}
+        else : context={'alignments':alignments, 'username': request.user.username, 'page_nb':page_nb}
+        return render(request, 'align/allresults.html',context)
+
+    # If it comes from the navigation menu
+    else:
+        alignments=Alignment.objects.filter(user_id=request.user.id).order_by('-id')
+        alignments=alignments[(5*page_nb-5):(5*page_nb)]
+        context={'alignments':alignments, 'username': request.user.username, 'page_nb':page_nb}
+        return render(request, 'align/allresults.html',context)

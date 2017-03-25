@@ -1,3 +1,11 @@
+<style>
+
+.pageButton {
+    text-decoration:none;
+    color:black;
+}
+</style>
+
 {% extends "base.html" %}
 
 {% block content %}
@@ -10,6 +18,8 @@
             <input type="submit" value="search"/>
         </form>
         <br>
+        <a class="pageButton" href="http://127.0.0.1:8000/align/allresults/{{page_nb|add:"-1"}}/">&#60;Prev</a>
+        <a class="pageButton" href="http://127.0.0.1:8000/align/allresults/{{page_nb|add:"1"}}/">Next></a>
         <br>
         {% if name_exist %}
             <p>{{name_exist}}</p>
