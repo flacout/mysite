@@ -89,7 +89,7 @@ def allresults(request, page_nb=1):
             alignments=Alignment.objects.filter(user_id=request.user.id).order_by('-id')
             alignments=alignments[(5*page_nb-5):(5*page_nb)]
             context={'alignments':alignments, 'username': request.user.username, 
-                    'name_exist':name_exist, 'page_nb':page_nb}
+                    'name_exist':name_exist, 'page':page_nb}
             return render(request, 'align/allresults.html',context)
 
         # Create a new entry in the alignments of the user
@@ -97,7 +97,7 @@ def allresults(request, page_nb=1):
                                 alignment_result=request.POST['result_align'], user_id=request.user.id)
         alignments=Alignment.objects.filter(user_id=request.user.id).order_by('-id')
         alignments=alignments[(5*page_nb-5):(5*page_nb)]
-        context={'alignments':alignments, 'username': request.user.username, 'page_nb':page_nb}
+        context={'alignments':alignments, 'username': request.user.username, 'page':page_nb}
         return render(request, 'align/allresults.html',context)
 
     # Check if it comes from the search button
@@ -109,13 +109,13 @@ def allresults(request, page_nb=1):
         # Chek if the search as a match or not
         if len(alignments)==0: 
             context={'alignments':alignments, 'username': request.user.username
-                    ,'no_match': "No match for your search", 'page_nb':page_nb}
-        else : context={'alignments':alignments, 'username': request.user.username, 'page_nb':page_nb}
+                    ,'no_match': "No match for your search", 'page':page_nb}
+        else : context={'alignments':alignments, 'username': request.user.username, 'page':page_nb}
         return render(request, 'align/allresults.html',context)
 
     # If it comes from the navigation menu
     else:
         alignments=Alignment.objects.filter(user_id=request.user.id).order_by('-id')
         alignments=alignments[(5*page_nb-5):(5*page_nb)]
-        context={'alignments':alignments, 'username': request.user.username, 'page_nb':page_nb}
+        context={'alignments':alignments, 'username': request.user.username, 'page':page_nb}
         return render(request, 'align/allresults.html',context)

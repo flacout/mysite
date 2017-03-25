@@ -18,8 +18,8 @@
             <input type="submit" value="search"/>
         </form>
         <br>
-        <a class="pageButton" href="http://127.0.0.1:8000/align/allresults/{{page_nb|add:"-1"}}/">&#60;Prev</a>
-        <a class="pageButton" href="http://127.0.0.1:8000/align/allresults/{{page_nb|add:"1"}}/">Next></a>
+        <a class="pageButton" href="http://127.0.0.1:8000/align/allresults/{{page|add:"-1"}}/">&#60;Prev</a>
+        <a class="pageButton" href="{% url 'align:allresultsPages' page_nb=page|add:"1" %}">Next></a>
         <br>
         {% if name_exist %}
             <p>{{name_exist}}</p>
