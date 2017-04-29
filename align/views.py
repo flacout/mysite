@@ -76,8 +76,17 @@ def result(request):
 def allresults(request, page_nb=1):
     
     name = request.POST.get('name_align', 0)
-    search= request.POST.get('search', 0)
+    search= request.POST.get('search', '')
+    change_page_button = request.POST.get('change_page', 0)
+
     page_nb=int(page_nb)
+    alignments=Alignment.objects.filter(user_id=request.user.id).order_by('-id')
+    nb_entries = len(alignments)
+    total_nb_pages = int(nb_entries/5)
+    if (total_nb_pages*5) != nb_entries : total_nb_pages+=1
+
+    if change_page_button !=0 : page_nb=int(change_page_button)
+    print change_page_button
 
     # Check if it comes from the align:result page
     if name!=0:
@@ -101,21 +110,22 @@ def allresults(request, page_nb=1):
         return render(request, 'align/allresults.html',context)
 
     # Check if it comes from the search button
-    if search!=0:
+    if len(search)!=0:
         alignments=Alignment.objects.filter(user_id=request.user.id).filter(
                             alignment_name__contains=request.POST['search']).order_by('-id')
-        alignments=alignments[(5*page_nb-5):(5*page_nb)]
 
         # Chek if the search as a match or not
         if len(alignments)==0: 
             context={'alignments':alignments, 'username': request.user.username
-                    ,'no_match': "No match for your search", 'page':page_nb}
-        else : context={'alignments':alignments, 'username': request.user.username, 'page':page_nb}
+                    ,'no_match': "No match for your search", 'page':page_nb, 'total_nb_pages':1}
+        else : context={'alignments':alignments, 'username': request.user.username, 
+                    'page':page_nb, 'total_nb_pages':1}
         return render(request, 'align/allresults.html',context)
 
     # If it comes from the navigation menu
     else:
         alignments=Alignment.objects.filter(user_id=request.user.id).order_by('-id')
         alignments=alignments[(5*page_nb-5):(5*page_nb)]
-        context={'alignments':alignments, 'username': request.user.username, 'page':page_nb}
+        context={'alignments':alignments, 'username': request.user.username, 
+                'page':page_nb, 'total_nb_pages':total_nb_pages}
         return render(request, 'align/allresults.html',context)

@@ -2,7 +2,11 @@
 
 .pageButton {
     text-decoration:none;
-    color:black;
+    color:blue;
+}
+.InactivePageButton {
+    text-decoration:none;
+    color:gray;
 }
 </style>
 
@@ -14,13 +18,28 @@
 
         <form action="{% url 'align:allresults' %}" method="post"> 
             {% csrf_token %}
-            <input type="text" placeholder="Search..." name="search"><br/>
+            <input type="text" placeholder="Search..." name="search"/><br/>
             <input type="submit" value="search"/>
+            <br>
+            <br>
+
+            {% if page > 1  %}
+                <a class="pageButton" href="http://127.0.0.1:8000/align/allresults/{{page|add:"-1"}}/">&#60;Prev</a>
+            {% else  %}
+                <span class="InactivePageButton">&#60;Prev</span>
+            {% endif %}
+
+            <span>Page <input type="text" value={{page}} name="change_page" style="width: 40px"/>/{{total_nb_pages}}</span>
+
+            {% if page < total_nb_pages %}
+                <a class="pageButton" href="{% url 'align:allresultsPages' page_nb=page|add:"1" %}">Next></a>
+            {% else  %}
+                <span class="InactivePageButton">Next></span>
+            {% endif %}
+            <br>
         </form>
-        <br>
-        <a class="pageButton" href="http://127.0.0.1:8000/align/allresults/{{page|add:"-1"}}/">&#60;Prev</a>
-        <a class="pageButton" href="{% url 'align:allresultsPages' page_nb=page|add:"1" %}">Next></a>
-        <br>
+
+
         {% if name_exist %}
             <p>{{name_exist}}</p>
         {% endif %}
