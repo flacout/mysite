@@ -20,6 +20,7 @@
             {% csrf_token %}
             <input type="text" placeholder="Search..." name="search"/><br/>
             <input type="submit" value="search"/>
+            <input type="submit" value="delete"/>
             <br>
             <br>
 
@@ -37,20 +38,24 @@
                 <span class="InactivePageButton">Next></span>
             {% endif %}
             <br>
+        
+
+
+            {% if nameOfAlignAlreadyExist %}
+                <p>{{nameOfAlignAlreadyExist}}</p>
+            {% endif %}
+
+            {% if no_match %}
+                <p>{{no_match}}</p><br><br>
+            {% endif %}
+
+            {% for i in alignments %}
+                <input type="checkbox" name="alignmentCheckbox" value={{i.id}}> Check to delete<br>
+                <p> {{i.alignment_name}}</p>
+                <pre  xml:space="preserve">{{ i.alignment_result }}</pre>
+            {% endfor %}
+            
+
         </form>
-
-
-        {% if name_exist %}
-            <p>{{name_exist}}</p>
-        {% endif %}
-
-        {% if no_match %}
-            <p>{{no_match}}</p><br><br>
-        {% endif %}
-
-        {% for i in alignments %}
-            <p> {{i.alignment_name}}</p>
-            <pre  xml:space="preserve">{{ i.alignment_result }}</pre>
-        {% endfor %}
 
 {% endblock content %}

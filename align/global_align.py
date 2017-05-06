@@ -2,7 +2,7 @@ from numpy import *
 from DNA_sequence import *
 import time
 
-def Alignment(sequenceA,sequenceB):
+def makeAlignment(sequenceA,sequenceB):
 
 	n=len(sequenceA)
 	m=len(sequenceB)
@@ -112,5 +112,5 @@ if __name__=="__main__":
 	#sequenceA=FastaDNA(presequenceA).sequence
 	#presequenceB=open('seqtest2','r').read()
 	#sequenceB=FastaDNA(presequenceB).sequence
-	print Alignment(sequenceA,sequenceB)
+	print makeAlignment(sequenceA,sequenceB)
 	print("--- %s seconds ---" % (time.time() - start_time))
