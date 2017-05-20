@@ -26,7 +26,7 @@ def result(request):
     sequenceB = tryGetSequence(request, 'sequenceB')
     fileA = tryGetFile(request, 'fileA')
     fileB = tryGetFile(request, 'fileB')
-    sequences = makeSequenceList(sequenceA, sequenceB, fileA, fileB)
+    sequences = makeSequenceList(sequenceA, fileA, sequenceB, fileB)
 
     if len(sequences) !=2: 
         name_alignment = ""
@@ -52,8 +52,8 @@ def tryGetFile(request, POSTFile):
     except: return None
 
 
-def makeSequenceList(sequenceA, sequenceB, fileA, fileB):
-    sequences = [sequenceA, sequenceB, fileA, fileB]
+def makeSequenceList(sequenceA, fileA, sequenceB, fileB):
+    sequences = [sequenceA, fileA, sequenceB, fileB]
     i=0
     while i<len(sequences):
         if sequences[i]==None : 
@@ -89,7 +89,7 @@ def accountResults(request, page_nb=1):
     elif (deleteCheckbox): 
         for i in deleteCheckbox: Alignment.objects.filter(id=int(i)).delete()
         return showAllAlignmentsFiveByFive(request, page_nb)
-    # if it comes from the navigation menu
+    # if it comes from the navigation menu or next button
     else: return showAllAlignmentsFiveByFive(request, page_nb)
 
 
