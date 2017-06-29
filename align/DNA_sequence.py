@@ -92,9 +92,9 @@ class FastaDNA:
 if __name__=="__main__":
 	sequence=open('seqtest1').read()
 	sequence=FastaDNA(sequence)
-	print sequence.name
-	print sequence.sequence+"\n"
-	print sequence.translate()+"\n"
-	print sequence.translate(2)+"\n"
-	print sequence.reverse()+"\n"
-	print sequence.reverse_complement()
+	print (sequence.name)
+	print (sequence.sequence+"\n")
+	print (sequence.translate()+"\n")
+	print (sequence.translate(2)+"\n")
+	print (sequence.reverse()+"\n")
+	print (sequence.reverse_complement())

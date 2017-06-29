@@ -1,0 +1,13 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+{% load static %}
+
+<body>
+HELLO CONNARD
+{% for i in myPictures %}
+    <img src="/{{ i.photo.url }}" width=400px/>
+{% endfor %}
+</body>
+
+{% endblock content %}

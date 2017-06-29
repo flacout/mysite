@@ -25,7 +25,9 @@ SECRET_KEY = '43!k@w7hvpgd6x58v4lb1uy56u*e8j2yz2ox(#_=&nxa(d*n*t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'fabricelacout.pythonanywhere.com']
+ALLOWED_HOSTS = []
+#On web replace by:
+#ALLOWED_HOSTS = [u'fabricelacout.pythonanywhere.com']
 
 
 # Application definition
@@ -33,6 +35,7 @@ ALLOWED_HOSTS = [u'fabricelacout.pythonanywhere.com']
 INSTALLED_APPS = [
     'main.apps.MainConfig',
     'align.apps.AlignConfig',
+    'photo.apps.PhotoConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -124,7 +127,6 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/accounts/loggedin/'
 
-#Use to download PDF
-MEDIA_URL='/pdf/'
+MEDIA_URL='media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')

@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.urls import reverse
+from django.conf import settings
 
 # import of custom modules
-from DNA_sequence import FastaDNA
-import global_align as ga
+from align.DNA_sequence import FastaDNA
+import align.global_align as ga
 
 #import of databade models
 from .models import Alignment
@@ -48,7 +49,7 @@ def tryGetSequence(request, POSTSequence):
 
 
 def tryGetFile(request, POSTFile):
-    try: return FastaDNA(request.FILES[POSTFile].read())
+    try: return FastaDNA(request.FILES[POSTFile].read().decode('UTF-8'))
     except: return None
 
 
@@ -64,7 +65,10 @@ def makeSequenceList(sequenceA, fileA, sequenceB, fileB):
 
 
 def saveResultToFile(name_alignment, result_alignment):
-    text_file=open("./media/result.txt",'w')
+    filePath = settings.BASE_DIR+"/media/result.txt"
+    text_file=open(filePath,'w')
+    #Path on the web:
+    #text_file=open("/home/fabricelacout/mysite/media/result.txt",'w')
     text_file.write(name_alignment+'\n'+result_alignment)
     text_file.close()
 

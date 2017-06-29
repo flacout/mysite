@@ -4,8 +4,8 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 
-import global_align as ga
-from DNA_sequence import FastaDNA
+import align.global_align as ga
+from align.DNA_sequence import FastaDNA
 
 from .models import Alignment
 
@@ -220,7 +220,7 @@ class AlignmentMethodTest(TestCase):
         result_alignment = resultPage.context['result_alignment']
 
         self.assertEqual(result_alignment, "Error: You need to submit exactly 2 sequences")
-
+    
     def test_result_page_with_one_file_and_two_sequences(self):
         resultPage = self.client.post( '/align/result/', 
                                      {'fileA':open('./align/seqtest1.txt','r'),

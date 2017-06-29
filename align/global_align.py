@@ -1,5 +1,4 @@
 from numpy import *
-from DNA_sequence import *
 import time
 
 def makeAlignment(sequenceA,sequenceB):
@@ -109,8 +108,6 @@ if __name__=="__main__":
 	#sequenceA="TAATGCATGGCGGGTG"
 	#sequenceB="CCGTTATGCGGGAG"
 	#presequenceA=open('seqtest1','r').read()
-	#sequenceA=FastaDNA(presequenceA).sequence
 	#presequenceB=open('seqtest2','r').read()
-	#sequenceB=FastaDNA(presequenceB).sequence
-	print makeAlignment(sequenceA,sequenceB)
-	print("--- %s seconds ---" % (time.time() - start_time))
+	print (makeAlignment(sequenceA,sequenceB))
+	print ("--- %s seconds ---" % (time.time() - start_time))
