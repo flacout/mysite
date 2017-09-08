@@ -1,5 +1,5 @@
-1/2
-TTAGG
-|||||
-TTAGG
+seq1/seq2
+ATGCGTGCGATAGA
+||||||*|||||||
+ATGCGTCCGATAGA
 

@@ -2,16 +2,39 @@
 
 {% block content %}
 {% load static %}
+<script src="{% static 'photo/photo.js' %}"></script>
+<script src="http://www.dukelearntoprogram.com/course1/common/js/image/SimpleImage.js" >
+</script>
 
-<body>
+
+<style>
+canvas {
+  height: 400px;
+  border: 1px solid lightgray;
+}
+</style>
+
+
+<body onload="autoUpload()">
     upload page
     <form enctype="multipart/form-data" action="." method="POST">
     {% csrf_token %}
-        <table>
+        <table onchange="upload()">
         {{ form.as_table }}
         </table>
-        <p><input type="submit" value="Submit"></p>
+        <p><input type="submit" value="Save"></p>
     </form>
+
+
+    <canvas id="can"></canvas>
+    <h1>Apply the filter you want</h1>
+      <input type="button" value="Red" onclick="makeRed()" >
+      <input type="button" value="Gray" onclick="makeGray()" >
+      <input type="range" min="0" max="100" value="0" oninput=doDarker() id="slide">Level of black
+      <p>
+        <input type="button" value="reset" onclick="reset()" >
+      </p>
+      <img hidden id="lastPicture" src="/{{ lastPicture.photo.url }}"/>
 </body>
 
 {% endblock content %}

@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'align.apps.AlignConfig',
     'photo.apps.PhotoConfig',
+    'ml.apps.MlConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

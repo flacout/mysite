@@ -4,10 +4,18 @@
 {% load static %}
 
 <body>
-HELLO CONNARD
-{% for i in myPictures %}
-    <img src="/{{ i.photo.url }}" width=400px/>
-{% endfor %}
+
+        {% for i in myPictures %}
+        <form action="{% url 'photo:index' %}" method="post"> 
+        {% csrf_token %}
+            <img src="/{{ i.photo.url }}" width=400px/>
+            <p>{{i.picture_name}}</p>
+            <p>{{i.upload_date}}</p>
+            <a download href="/{{ i.photo.url }}" target="_blank">download picture</a>
+            <input hidden type="text" value="{{i.id}}" name="photo_id" />
+            <input type="submit" value="Open Picture" />
+        </form>
+        {% endfor %}
 </body>
 
 {% endblock content %}
