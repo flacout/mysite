@@ -1,7 +1,10 @@
 from django.shortcuts import render
+from django.conf import settings
+
 import re
 import base64
-
+import ml.classifier
+from ml.classifier import makePrediction
 
 #---------------------------------------------------------------------------------------------
 # Display the home page of the Machine Learning application.
@@ -17,6 +20,7 @@ def index(request):
         output = open('media/ml_number.png', 'wb')
         output.write(imgstr)
         output.close()
-        return render(request, 'ml/index.html', {'username': request.user.username})
+        prediction = makePrediction()
+        return render(request, 'ml/index.html', {'username': request.user.username, 'prediction':prediction})
     else :
         return render(request, 'ml/index.html', {'username': request.user.username})
