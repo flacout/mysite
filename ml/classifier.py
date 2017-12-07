@@ -13,9 +13,11 @@ from sklearn.model_selection import train_test_split
 from sklearn.decomposition import PCA
 from sklearn.svm import SVC
 from PIL import Image
+from sklearn.externals import joblib
 
 print( "training Classifier...........")
-labeled_images = pd.read_csv('ml/train.csv')
+#labeled_images = pd.read_csv('ml/train.csv')
+labeled_images = pd.read_csv('train.csv')
 images = labeled_images.iloc[:,1:]
 labels = labeled_images.iloc[:,:1]
 train_images, test_images,train_labels, test_labels = train_test_split(images, labels, train_size=0.8, random_state=0)
@@ -28,9 +30,15 @@ svc = SVC().fit(train_pca, train_labels)
 print("train", svc.score(train_pca,train_labels))
 print("test", svc.score(test_pca,test_labels))
 
+# save classifier and PCA parameter to a file.
+joblib.dump(svc, 'svm_clf.pkl')
+joblib.dump(pca, 'pca.pkl')
+
 # MAKE THE PREDICTION
 def makePrediction():
-    pathToImage = 'media/ml_number.png'
+    clf = joblib.load('svm_clf.pkl')
+    pca = joblib.load('pca.pkl')
+    pathToImage = '../media/ml_number.png'
     image = Image.open(pathToImage, 'r')
     image = image.resize((28,28,),Image.ANTIALIAS) # I resize the image to fit my classifier
 
@@ -42,6 +50,9 @@ def makePrediction():
 
     # I invert the values because my classifier was trained like that.
     whitePixels = 255 - blackPixels
-    prediction = svc.predict( pca.transform(whitePixels))
+    prediction = clf.predict( pca.transform(whitePixels))
     print (prediction[0])
     return prediction[0]
+
+if __name__=="__main__":
+    makePrediction()
