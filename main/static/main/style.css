@@ -7,7 +7,7 @@ h1 {
   color: dimgray;
 }
 
-#resume{
+.blueButton{
     background-color: #1a53ff;
     color: white;
     text-decoration: none;

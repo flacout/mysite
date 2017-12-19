@@ -16,6 +16,23 @@ textarea {
 
 <body>
     <h1>Sequence alignment page</h1>
+        <p>
+            Enter two sequences of character each less than 500 characters.<br>
+            Or upload two text files.<br>
+            The sequences have to be in <b>FASTA format</b>, starting with a ">" character. See example below:<br><br>
+            <i><small>
+                >Name of sequence1<br>
+                TGAAGATGGATGATGACCAGAT<br>
+                TGACCCGCGCGCGCATGCGCGC<br>
+            </small></i>
+            <br>
+            <i><small> 
+                >Name of sequence2<br>
+                CCCCCCCCCCCCCGATGGGCAT<br>
+                TGACCCGCGCGCGCATGCGCGC<br>
+            </small></i>
+        </p>
+        <br>
 
         <form enctype="multipart/form-data" action="{% url 'align:result' %}" method="post"> 
         {% csrf_token %}

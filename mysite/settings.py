@@ -25,7 +25,7 @@ SECRET_KEY = '43!k@w7hvpgd6x58v4lb1uy56u*e8j2yz2ox(#_=&nxa(d*n*t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1',u'fabricelacout.pythonanywhere.com']
 #On web replace by:
 #ALLOWED_HOSTS = [u'fabricelacout.pythonanywhere.com']
 

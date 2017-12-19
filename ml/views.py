@@ -10,6 +10,11 @@ from sklearn.svm import SVC
 from sklearn.externals import joblib
 import numpy as np
 
+
+# Upload the parameters for the classifier and PCA
+clf = joblib.load(settings.BASE_DIR+'/ml/svm_clf.pkl')
+pca = joblib.load(settings.BASE_DIR+'/ml/pca.pkl')
+
 #---------------------------------------------------------------------------------------------
 # Display the home page of the Machine Learning application.
 #---------------------------------------------------------------------------------------------
@@ -22,26 +27,26 @@ def index(request):
         # and decode it to bytes.
         imgstr = re.search(r'base64,(.*)', imgstr).group(1)
         imgstr = base64.b64decode(imgstr)
-            
+        
+        # Save the decoded picture as a png file.
         filePath = settings.BASE_DIR+"/media/ml_number.png"
         output = open(filePath, 'wb')
         output.write(imgstr)
         output.close()
-        prediction = makePrediction()
+        prediction = makePrediction(clf, pca)
         return render(request, 'ml/index.html', {'username': request.user.username, 'prediction':prediction})
     else :
         return render(request, 'ml/index.html', {'username': request.user.username})
 
-# MAKE THE PREDICTION
-def makePrediction():
-    clf = joblib.load(settings.BASE_DIR+'/ml/svm_clf.pkl')
-    pca = joblib.load(settings.BASE_DIR+'/ml/pca.pkl')
+
+# Use a trained classifier to predict the number drawn by the user
+def makePrediction(clf, pca):
     pathToImage = settings.BASE_DIR+'/media/ml_number.png'
     image = Image.open(pathToImage, 'r')
-    image = image.resize((28,28,),Image.ANTIALIAS) # I resize the image to fit my classifier
+    image = image.resize((28,28,),Image.ANTIALIAS) # I resize the image to fit in my classifier
 
     # the getdata method return RBG values so I only keep one of these values
-    # the image was in black and white anyway
+    # the image was in black and white anyway.
     pixels = list(image.getdata())
     blackPixels, _ , _ , _   = zip(*pixels) 
     blackPixels = np.array(blackPixels)
@@ -49,5 +54,4 @@ def makePrediction():
     # I invert the values because my classifier was trained like that.
     whitePixels = 255 - blackPixels
     prediction = clf.predict( pca.transform(whitePixels))
-    print (prediction[0])
     return prediction[0]

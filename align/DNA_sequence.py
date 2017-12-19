@@ -10,7 +10,6 @@ It has three methods:
 translate(frame):
 return a string with the translation of the DNA sequence into a protein sequence.
 It allow the 3 different reading frame to be operated.
-
 If frame=2, the translation begin at the second base.
 If frame=3, the translation begin at the third base.
 For every other value of frame, the translation begin at the first base.
@@ -25,12 +24,12 @@ takes no argument and return a string with the complementary strand of DNA rever
 import re
 
 class FastaDNA:
-	def __init__(self,fasta):
+	def __init__(self, fasta):
 		self.fasta=fasta
 
 		# initialize the name of the FASTA file
-		name1=re.findall('>(.+?)\n',self.fasta)[0]
-		self.name=name1.strip()
+		name=re.findall('>(.+?)\n',self.fasta)[0]
+		self.name=name.strip()
 
 		# initialyse the sequence of the FASTA file
 		self.sequence=self.get_sequence()
@@ -46,18 +45,17 @@ class FastaDNA:
 	def get_sequence(self):
 		# I use the regular expression to extract the DNA sequence 
 		# by eliminating the name and the newlines
-
 		sequence=''
-		liste=re.findall('\n(.+)',self.fasta)
-		for i in liste:
+		lines=re.findall('\n(.+)',self.fasta)
+		for i in lines:
 			sequence+=i.strip().upper()
 		sequence=sequence.strip()
 		return sequence
 
+
 	def translate(self,*frame):
 		# Check if an argument is passed and what argument it is
-		# then apply the codon tabe for translation
-
+		# then apply the codon tabe for translation in amino acids
 		translation=''
 		try :
 			if frame[0]==2: i=1
@@ -66,9 +64,9 @@ class FastaDNA:
 		except : i=0
 		while i<len(self.sequence):
 			codon=self.sequence[i:i+3]
-			try: aa=self.codontable[codon]
-			except: aa='X'
-			translation+=aa
+			try: amino_acid=self.codontable[codon]
+			except: amino_acid='X'
+			translation+=amino_acid
 			i+=3
 		return translation
 
@@ -77,7 +75,7 @@ class FastaDNA:
 
 	def reverse_complement(self):
 		# use the reverse method
-		# then convert every base to it corresponding base on the complementary strand
+		# then convert every character to its corresponding base on the complementary strand
 		
 		rev_com=''
 		rev=self.reverse()

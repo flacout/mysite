@@ -85,10 +85,16 @@ function findxy(res, e) {
         }
     }
 }
-
 </script>
 
 <body onload="init()">
+    <div>
+    <br>
+        Draw a number between 1 and 9 in the box. I will try to guess what this number is.<br>
+        Make sure to pass several times on the same line to have a plain black line.<br>
+        The more clean the number is the best chances I have to guess right!
+    </div>
+
     <form enctype="multipart/form-data" action="." method="POST">
     {% csrf_token %}
 
@@ -97,7 +103,8 @@ function findxy(res, e) {
         <br>
         <input type="button" value="clear" id="clr" size="23" onclick="init()">
         <textarea hidden name="canvasData" id="textData" cols="1" row="1"></textarea>
-    <input type="submit" value="Submit" onclick="save()">
+        <input type="submit" value="Guess" onclick="save()">
+    </form>
 
     {% if prediction %}
         <p>My Guess is:  {{prediction}} !</p>
