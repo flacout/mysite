@@ -1,5 +1,5 @@
-1/2
-TTAGG
-|||||
-TTAGG
+1/1
+ATGGACGAT----CAG
+||||*||||    |||
+ATGGTCGATGGCGCAG
 

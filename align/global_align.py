@@ -1,7 +1,11 @@
 from numpy import *
 import time
 
-def makeAlignment(sequenceA,sequenceB):
+def makeAlignment(sequence1,sequence2):
+    global sequenceA
+    global sequenceB
+    sequenceA = sequence1
+    sequenceB = sequence2
     # settup a matrix of integers fill with 0, and of lenght n+1 column, m+1 rows 
     # (sequence A horizontal, sequenceB vertical).
     # Scoring matrice: with score match 2, mismatch -1, gap -1.
@@ -12,18 +16,17 @@ def makeAlignment(sequenceA,sequenceB):
     traceBackMatrix=array([0]*((m+1)*(n+1)),dtype=int).reshape((m+1),(n+1))
 
     scoreMatrix, traceBackMatrix = fillMatrices(scoreMatrix, traceBackMatrix, 
-                                                sequenceA, sequenceB, n, m)
+                                                n, m)
     # find coordinates of the starting point of our best paths
     i, j = findOrigin(scoreMatrix)
     # Create the 3 strings to print the result
     sequence3A, trace, sequence3B = followTraceBack(scoreMatrix, traceBackMatrix, 
-                                                    sequenceA, sequenceB, 
                                                     i, j)
     result = formatOutput(sequence3A, trace, sequence3B)
     return result
 
 
-def fillMatrices(scoreMatrix, traceBackMatrix, sequenceA, sequenceB, n, m):
+def fillMatrices(scoreMatrix, traceBackMatrix, n, m):
 	#filling array values
 	i=1
 	while i<=m:
@@ -51,7 +54,7 @@ def findOrigin(scoreMatrix):
     j=cells[1][0]
     return i,j
 
-def followTraceBack(scoreMatrix, traceBackMatrix, sequenceA, sequenceB, i, j):
+def followTraceBack(scoreMatrix, traceBackMatrix, i, j):
 	sequence3A=''
 	trace=''
 	sequence3B=''
@@ -77,11 +80,10 @@ def followTraceBack(scoreMatrix, traceBackMatrix, sequenceA, sequenceB, i, j):
 
 	# Add rest of the sequence if alignment doesn't start from the beginning
 	sequence3A, trace, sequence3B = addTraillingSequence(sequence3A, trace, sequence3B,
-                                                         sequenceA, sequenceB,
                                                          i, j)
 	return sequence3A, trace, sequence3B
 
-def addTraillingSequence(sequence3A, trace, sequence3B, sequenceA, sequenceB, i, j):
+def addTraillingSequence(sequence3A, trace, sequence3B, i, j):
 	while j>0:
 			sequence3A+=sequenceA[j-1]
 			sequence3B+='-'
@@ -116,11 +118,11 @@ def formatOutput(sequence3A, trace, sequence3B):
 
 if __name__=="__main__":
     start_time = time.time()
-    sequenceA='MKFLSARDFQPVAFLGLMLLTATAFPTSQVRRGDFTEDTTHNRPVYTTSQVGGLITYVLREILEMRKELCNGNSDCMNSDDALSENNLKLPEIQRNDGCFQTGYNQEICLLKICSGLLEFRFYLEFVKNNLQDNKKDKARVIQSNTETLVHIFKQEIKDSYKIVLPTPTSNALLMEKLESQKEWLRTKTIQLILKALEEFLKVTMRSTRQT'
-    sequenceB='MKFLSARDFHPVAFLGLMLVTTTAFPTSQVRRGDFTEDTTPNRPVYTTSQVGGLITHVLWEIVEMRKELCNGNSDCMNNDDALAENNLKLPEIQRNDGCYQTGYNQEICLLKISSGLLEYHSYLEYMKNNLKDNKKDKARVLQRDTETLIHIFNQEVKDLHKIVLPTPISNALLTDKLESQKEWLRTKTIQFILKSLEEFLKVTLRSTRQT'
+    sequence1='MKFLSARDFQPVAFLGLMLLTATAFPTSQVRRGDFTEDTTHNRPVYTTSQVGGLITYVLREILEMRKELCNGNSDCMNSDDALSENNLKLPEIQRNDGCFQTGYNQEICLLKICSGLLEFRFYLEFVKNNLQDNKKDKARVIQSNTETLVHIFKQEIKDSYKIVLPTPTSNALLMEKLESQKEWLRTKTIQLILKALEEFLKVTMRSTRQT'
+    sequence2='MKFLSARDFHPVAFLGLMLVTTTAFPTSQVRRGDFTEDTTPNRPVYTTSQVGGLITHVLWEIVEMRKELCNGNSDCMNNDDALAENNLKLPEIQRNDGCYQTGYNQEICLLKISSGLLEYHSYLEYMKNNLKDNKKDKARVLQRDTETLIHIFNQEVKDLHKIVLPTPISNALLTDKLESQKEWLRTKTIQFILKSLEEFLKVTLRSTRQT'
     #sequenceA="TAATGCATGGCGGGTG"
     #sequenceB="CCGTTATGCGGGAG"
     #presequenceA=open('seqtest1','r').read()
     #presequenceB=open('seqtest2','r').read()
-    print (makeAlignment(sequenceA,sequenceB))
+    print (makeAlignment(sequence1,sequence2))
     print ("--- %s seconds ---" % (time.time() - start_time))
