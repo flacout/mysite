@@ -15,6 +15,8 @@ function autoUpload() {
 }
 
 function upload() {
+  // "id_photo" is a field of the formated  {{form.as_table}}
+  // It's in the final HTML file, it just appear dynamicaly.
   var upload = document.getElementById("id_photo");
   image = new SimpleImage(upload);
   imagegray = new SimpleImage(upload);
@@ -69,4 +71,23 @@ function reset(){
   context.clearRect(0,0,canvas.width,canvas.height);
   upload();
   image.drawTo(canvas);
+}
+
+function saveModif() {
+    var type = $("#photo_extension").val();
+    if (type == 'jpeg' || type == 'jpg'){
+      var dataURL = canvas.toDataURL('image/jpeg', 1.0);
+    }
+    else {
+      var dataURL = canvas.toDataURL();
+    }
+    document.getElementById("textData").value = dataURL;
+}
+
+function isValidForm(){
+    var type = $("#photo_id").val();
+    if (type == '') { 
+      alert("use SaveUpload first before modifying the picture");
+      return false;
+    }
 }

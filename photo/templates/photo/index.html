@@ -22,7 +22,16 @@ canvas {
         <table onchange="upload()">
         {{ form.as_table }}
         </table>
-        <p><input type="submit" value="Save"></p>
+        <p><input type="submit" value="SaveUpload"></p>
+    </form>
+
+
+    <form enctype="multipart/form-data" action="." method="POST" onsubmit="return isValidForm()">
+    {% csrf_token %}
+        <textarea hidden name="canvasData" id="textData" cols="1" row="1"></textarea>
+        <input hidden type="text" id="photo_id" name="photo_id" value="{{lastPicture.id}}"/>
+        <input hidden type="text" id="photo_extension" value="{{extension}}"/>
+        <p><input type="submit" name="SaveModif" value="SaveModifi" onclick="saveModif()"></p>
     </form>
 
 

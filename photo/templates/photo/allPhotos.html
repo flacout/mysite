@@ -13,7 +13,8 @@
             <p>{{i.upload_date}}</p>
             <a download href="/{{ i.photo.url }}" target="_blank">download picture</a>
             <input hidden type="text" value="{{i.id}}" name="photo_id" />
-            <input type="submit" value="Open Picture" />
+            <input type="submit" name="select" value="Open Picture" />
+            <input type="submit" name="delete" value="Delete" />
         </form>
         {% endfor %}
 </body>
